@@ -10,17 +10,20 @@ type Order={
     status: "Ordered" | "Completed"
 }
 
+let menuItem=1
 const menu: Menu[] = [
-    {id:1, name: "Margherita", price: 200 },
-    {id:2, name: "Pepperconi", price: 150 },
-    {id:3, name: "hawaiian", price: 300 },
-    {id:4, name: "Veggie", price: 370 }
+    {id:menuItem++, name: "Margherita", price: 200 },
+    {id:menuItem++, name: "Pepperconi", price: 150 },
+    {id:menuItem++, name: "hawaiian", price: 300 },
+    {id:menuItem++, name: "Veggie", price: 370 }
 ];
 let cashInStore= 1000
 const orders: Order[] = []
 
-function addToPizzaMenu(pizzaObj: Menu) {
-    menu.push(pizzaObj)
+function addToPizzaMenu(pizzaObj: Omit<Menu, "id">): Menu {
+    const pizza:Menu={id: menuItem++, ...pizzaObj}
+    menu.push(pizza)
+    return pizza
 }
 
 let orderIdNo = 1
@@ -80,10 +83,9 @@ function getPizzaDetail(identifier: string|number): Menu | undefined {
     }
 }
 
-addToPizzaMenu({id:5, name: "BBQ Chicken", price: 500 })
+addToPizzaMenu({ name: "BBQ Chicken", price: 500 })
 placeOrders("Margherita")
 completeTheOrder(1)
 console.log("Menu: " + menu)
 console.log("Cash Available: " + cashInStore)
 console.log("orders till now: " + orders)
-
